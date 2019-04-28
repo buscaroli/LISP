@@ -27,4 +27,38 @@
                (cadr (assoc note note-table)))
           notes-list))
 
+(defun num-to-note (num)
+"Utility function that converts a number into
+  a note, to be used in the function 'notes'"
+  (car (find-if #'(lambda (n)
+                    (equal num (second n)))
+                note-table)))
 
+(defun notes (num-list)
+  "Takes a list of numbers and converts it to
+    a list of notes"
+  (mapcar #'(lambda (n)
+              (num-to-note n))
+          num-list))
+
+(defun raise (amount num-list)
+"Utility function that raises each number in a given
+  list of a set amount"
+  (mapcar #'(lambda (n)
+              (+ amount n))
+          num-list))
+
+(defun normalize (num-list)
+  "Normalizes a list of numbers representing
+    notes in order for every number to be in 
+    the range 1 to 12"
+  (mapcar #'(lambda (n)
+              (cond ((< n 1) (setf n (+ n 12)))
+                    ((> n 12) (setf n (- n 12)))
+                    (t n))
+              ) num-list))
+
+(defun transpose (amount song)
+"Transposes a song by increasing its notes by 
+  a given 'amount'"
+  (notes (normalize (raise amount (numbers song)))))
