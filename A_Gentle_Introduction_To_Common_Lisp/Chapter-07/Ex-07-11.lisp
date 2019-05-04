@@ -8,3 +8,4 @@
   "Given a list of numbers, selects the one that
     are greater than 1 and less than 5"
   (remove-if-not #'gt1-lt5 list-of-numbers))
+
